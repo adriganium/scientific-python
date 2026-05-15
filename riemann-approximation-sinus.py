@@ -1,12 +1,34 @@
 import math
-
 import matplotlib
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import patches
 from matplotlib.patches import Rectangle
+from tkinter import *
 
-resolution = 30
+
+#Set Resolution with button
+def submit():
+	global resolution
+	resolution=int(entry.get())
+	window.destroy()
+
+#Window to get resolution
+window = Tk()
+entry = Entry()
+
+label = Label(window, text='Die Auflösung bitte', font="40").pack(padx=10, pady=10)
+
+submit = Button(window,text="Bestätigen",command=submit)
+submit.pack(side= RIGHT)
+
+entry.config(font=('terminal', 30))
+entry.config(bg='grey')
+entry.config(fg='white')
+entry.config(width=10)
+
+entry.pack()
+window.mainloop()
 
 
 def getriemannaccuracy(resolution):
@@ -38,9 +60,10 @@ xline = np.array([0, 30])
 yline = np.array([getriemannaccuracy(resolution), getriemannaccuracy(resolution)])
 
 plt.figure()
-plt.plot(xline, yline, linestyle = 'dotted')
+plt.plot(xline, yline, linestyle = 'dotted', label="Genauigkeit\nAktueller Wert in Prozent: %d " % getriemannaccuracy(resolution) )
 plt.xlabel("Auflösung")
 plt.ylabel("Genauigkeit der Riemann Summe [%]")
+plt.legend()
 plt.plot(xaxis ,yaxis)
 
 
@@ -56,6 +79,7 @@ plt.xlabel("Periode [°]")
 plt.ylabel("Funktionswert Sinus")
 plt.plot(xaxis2, yaxis2,)
 plt.plot(xaxis2points, yaxis2points, 'o')
+
 #Plotting Rectangles
 width = 360 / resolution
 for x, y in zip(xaxis2points, yaxis2points):
